@@ -208,7 +208,13 @@ public abstract class Downsampler {
                          //won't go past our pre-allocated 16kb
          }
 
-        final Bitmap result = BitmapFactory.decodeStream(bis, null, options);
+        Bitmap result = null;
+        try {
+            result = BitmapFactory.decodeStream(bis, null, options);
+        } catch (IllegalArgumentException e) {
+            Log.d("Downsampler: exception decoding inDecodeBounds=" + options.inJustDecodeBounds + " sample=" + options.inSampleSize);
+            e.printStackTrace();
+        }
 
         try {
             if (options.inJustDecodeBounds) {
