@@ -78,7 +78,7 @@ public class LruCacheTest extends AndroidTestCase {
         assertEquals(1, totalRemoved.get());
     }
 
-    public void testBitmapLargerThanPoolIsImmediatelyEvicted() {
+    public void testBitmapLargerThanCacheIsImmediatelyEvicted() {
         final Bitmap tooLarge = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888);
         assertTrue(getSize(tooLarge) > SIZE);
         final AtomicInteger totalRemoved = new AtomicInteger();
@@ -116,6 +116,34 @@ public class LruCacheTest extends AndroidTestCase {
         assertEquals(0, totalRemoved.get());
         cache.put(key, test);
         assertEquals(1, totalRemoved.get());
+    }
+
+    public void testClearMemoryDoesNotRecycleBitmaps() {
+        fillCache();
+        final AtomicInteger cleared = new AtomicInteger();
+        cache.setImageRemovedListener(new MemoryCache.ImageRemovedListener() {
+            @Override
+            public void onImageRemoved(Bitmap removed) {
+                assertFalse(removed.isRecycled());
+                cleared.getAndIncrement();
+            }
+        });
+        cache.clearMemory();
+        assertTrue(cleared.get() > 0);
+    }
+
+    public void testTrimMemoryDoesNotRecycleBitmaps() {
+        fillCache();
+        final AtomicInteger cleared = new AtomicInteger();
+        cache.setImageRemovedListener(new MemoryCache.ImageRemovedListener() {
+            @Override
+            public void onImageRemoved(Bitmap removed) {
+                assertFalse(removed.isRecycled());
+                cleared.getAndIncrement();
+            }
+        });
+        cache.trimMemory(ComponentCallbacks2.TRIM_MEMORY_COMPLETE);
+        assertTrue(cleared.get() > 0);
     }
 
     public void testClearMemoryCallsListener() {
