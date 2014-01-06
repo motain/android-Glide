@@ -3,24 +3,27 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.5.+'
+        classpath 'com.android.tools.build:gradle:0.7.+'
     }
 }
 
 apply plugin: 'android-library'
+apply plugin: 'maven'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile files('libs/disklrucache-2.0.2.jar')
+    compile 'com.jakewharton:disklrucache:2.0.2'
+    
+    //TODO: Replace this with the VOLLEY jar from the distribution
     compile files('libs/volley.jar')
 }
 
 android {
     compileSdkVersion 19
-    buildToolsVersion = "19.0.0"
+    buildToolsVersion = '19'
 
     sourceSets {
         main {
@@ -32,6 +35,20 @@ android {
             java.srcDirs         = ['src']
             manifest.srcFile 'AndroidManifest.xml'
 
+        }
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: project.deploymentUrl) {
+               authentication(userName: project.deploymentUsername, password: project.deploymentPassword)
+            }
+
+            pom.artifactId = 'library'
+            pom.groupId = 'com.bumptech.glide'
+            pom.version = '2.0.1'
         }
     }
 }
