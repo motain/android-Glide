@@ -12,13 +12,14 @@ apply plugin: 'maven'
 
 repositories {
     mavenCentral()
+    maven {
+        url 'TODO: Add internal repository'
+    }
 }
 
 dependencies {
     compile 'com.jakewharton:disklrucache:2.0.2'
-    
-    //TODO: Replace this with the VOLLEY jar from the distribution
-    compile files('libs/volley.jar')
+    compile 'com.android.volley:volley:1.0'
 }
 
 android {
