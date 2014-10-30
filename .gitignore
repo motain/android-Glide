@@ -1,22 +1,47 @@
-library/bin/*
-library/gen/*
-library/build/*
-library/local.properties
-library/.gradle
-library/.settings
+# built application files
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+build/
+
+# used for BB10 conversion
+dist/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Mac thumbnail db
+.DS_Store
+
+# Idea con-crucial project files
+*.idea
+*.iws
 *.iml
-.idea/*
-*.DS_Store
-*.swp
-proguard-project.txt
-samples/flickr/.idea/*
-samples/flickr/gen
-samples/flickr/out
-samples/flickr/bin
-samples/flickr/local.properties
-*.keystore
-**/.idea/*
-.settings
 /library/.classpath
 /library/.project
-docs/**/*
+.idea
+.gradle
+local.properties
+
+tests/bin/
+tests/gen/
+tests/.settings/
+
+# Auto generated code from java annotations
+/.apt_generated
+
+# Lint reports
+lint-report.html
+lint-report_files/
+
+# sensitive files not to be committed at any point
+onefootball.signing.keystore
+onefootball.properties.gradle
